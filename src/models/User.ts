@@ -1,11 +1,12 @@
-import { Schema, model, Document, ObjectId } from "mongoose";
+import { Schema, model, Document } from "mongoose";
+// import { IThought } from "./Thought.js";
+// import { thoughtSchema } from "./Thought.js";
 
-
-interface IUser extends Document {
+export interface IUser extends Document {
   username: string;
   email: string;
-  thoughts: ObjectId[];
-  friends: ObjectId[];
+  thoughts: Schema.Types.ObjectId[];
+  friends: Schema.Types.ObjectId[];
 }
 
 // Schema to create User model
@@ -13,16 +14,14 @@ const userSchema = new Schema<IUser>(
   {
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, match: /.+\@.+\..+/, unique: true },
-    thoughts: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Thought",
-      },
-    ],
+    thoughts: [{
+      type: Schema.Types.ObjectId,
+        ref: "thought",
+    }],
     friends: [
       {
         type: Schema.Types.ObjectId,
-        ref: "User",
+        ref: "user",
       },
     ],
   },
@@ -44,4 +43,24 @@ userSchema
 // Initializes our User model
 const User = model("user", userSchema);
 
+// const thoughtData = [
+//   {
+//     thoughtText:
+//       "How many licks does it take to get to the center of a tootsie pop?",
+//     createdAt: Date.now,
+//     username: "MrOwl",
+//     reactions: ["One", "T-Hooooo", "*crunch*", "The world may never know"],
+//   },
+// ];
+
+// const friendData: ObjectId[] = [];
+
+// User.create({
+//   username: "MrOwl",
+//   email: "hoothoot@skymail.fly",
+//   thoughts: thoughtData,
+//   friends: friendData,
+// })
+//   .then((data) => console.log(data))
+//   .catch((err) => console.error(err));
 export default User;

@@ -61,8 +61,8 @@ export const updateThought = async (req, res) => {
         return;
     }
 };
-// Deletes an Thought from the database. Looks for an app by ID.
-// Then if the app exists, we look for any users associated with the app based on he app ID and update the Thoughts array for the User.
+// Deletes an Thought from the database. Looks for a user by ID.
+// Then if the user exists, we look for any users associated with the app based on he app ID and update the Thoughts array for the User.
 export const deleteThought = async (req, res) => {
     try {
         const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });

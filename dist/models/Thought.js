@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
-const thoughtSchema = new Schema({
+import reactionSchema from "./Reaction.js";
+export const thoughtSchema = new Schema({
     thoughtText: {
         type: String,
         required: true,
@@ -14,7 +15,7 @@ const thoughtSchema = new Schema({
         type: String,
         required: true,
     },
-    reactions: { type: [] }
+    reactions: [reactionSchema]
 }, {
     toJSON: {
         virtuals: true,

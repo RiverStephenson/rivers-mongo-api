@@ -1,14 +1,14 @@
 import { Schema, model, Document } from "mongoose";
+import reactionSchema, { IReaction } from "./Reaction.js";
 
-
-interface IThought extends Document {
+ export interface IThought extends Document {
   thoughtText: String;
   createdAt: Date;
   username: String;
-  reactions: String[];
+  reactions: IReaction[];
 }
 
-const thoughtSchema = new Schema<IThought>(
+export const thoughtSchema = new Schema<IThought>(
   {
     thoughtText: {
       type: String,
@@ -25,7 +25,7 @@ const thoughtSchema = new Schema<IThought>(
       type: String,
       required: true,
     },
-    reactions: {type: []}
+    reactions: [reactionSchema]
   
   },
   {
