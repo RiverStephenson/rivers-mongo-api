@@ -3,7 +3,7 @@ import { Thought, User } from '../models/index.js';
 // Then we return the results as JSON, and catch any errors. Errors are sent as JSON with a message and a 500 status code
 export const getThoughts = async (_req, res) => {
     try {
-        const thoughts = await Thought.find();
+        const thoughts = await Thought.find({});
         res.json(thoughts);
     }
     catch (err) {
@@ -14,7 +14,7 @@ export const getThoughts = async (_req, res) => {
 export const getSingleThought = async (req, res) => {
     try {
         const thought = await Thought.findOne({ _id: req.params.ThoughtId });
-        if (!Thought) {
+        if (!thought) {
             return res.status(404).json({ message: 'No Thought with that ID' });
         }
         res.json(thought);
@@ -84,32 +84,38 @@ export const deleteThought = async (req, res) => {
     }
 };
 // Adds a reaction to an Thought. This method is unique in that we add the entire body of the reaction rather than the ID with the mongodb $addToSet operator.
-export const addReaction = async (req, res) => {
-    try {
-        const thought = await Thought.findOneAndUpdate({ _id: req.params.ThoughtId }, { $addToSet: { reactions: req.body } }, { runValidators: true, new: true });
-        if (!thought) {
-            return res.status(404).json({ message: 'No Thought with this id!' });
-        }
-        res.json(Thought);
-        return;
-    }
-    catch (err) {
-        res.status(500).json(err);
-        return;
-    }
-};
+// export const addReaction = async (req: Request, res: Response) => {
+//   try {
+//     const thought = await Thought.findOneAndUpdate(
+//       { _id: req.params.ThoughtId },
+//       { $addToSet: { reactions: req.body } },
+//       { runValidators: true, new: true }
+//     );
+//     if (!thought) {
+//       return res.status(404).json({ message: 'No Thought with this id!' });
+//     }
+//     res.json(Thought);
+//     return;
+//   } catch (err) {
+//     res.status(500).json(err);
+//     return;
+//   }
+// }
 // Remove Thought reaction. This method finds the Thought based on ID. It then updates the reactions array associated with the app in question by removing it's reactionId from the reactions array.
-export const removeReaction = async (req, res) => {
-    try {
-        const thought = await Thought.findOneAndUpdate({ _id: req.params.ThoughtId }, { $pull: { reactions: { reactionId: req.params.reactionId } } }, { runValidators: true, new: true });
-        if (!thought) {
-            return res.status(404).json({ message: 'No Thought with this id!' });
-        }
-        res.json(thought);
-        return;
-    }
-    catch (err) {
-        res.status(500).json(err);
-        return;
-    }
-};
+// export const removeReaction = async (req: Request, res: Response) => {
+//   try {
+//     const thought = await Thought.findOneAndUpdate(
+//       { _id: req.params.ThoughtId },
+//       { $pull: { reactions: { reactionId: req.params.reactionId } } },
+//       { runValidators: true, new: true }
+//     );
+//     if (!thought) {
+//       return res.status(404).json({ message: 'No Thought with this id!' });
+//     }
+//     res.json(thought);
+//     return;
+//   } catch (err) {
+//     res.status(500).json(err);
+//     return;
+//   }
+// }
